@@ -11,6 +11,77 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [gender, setGender] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [consentNews, setConsentNews] = useState(false);
+  const [consentMarketing, setConsentMarketing] = useState(false);
+
+  // Name and consent page (step 4)
+  if (step === 4) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center px-4 pt-6 relative">
+        {/* Back button */}
+        <button
+          className="absolute left-4 top-6 w-8 h-8 flex items-center justify-center bg-black rounded-full border border-gray-700"
+          onClick={() => setStep(3)}
+          aria-label="Back"
+        >
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+        {/* Title */}
+        <h2 className="text-white text-lg font-bold text-center mb-8 mt-2">Create account</h2>
+        {/* Name form */}
+        <div className="w-full max-w-md flex flex-col items-center">
+          <label className="text-white text-xl font-bold mb-2 w-full" htmlFor="name">What's your name?</label>
+          <div className="relative w-full mb-1">
+            <input
+              id="name"
+              type="text"
+              className="w-full rounded-md bg-gray-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-300 pr-10"
+              placeholder="Enter your name."
+              value={name}
+              onChange={e => setName(e.target.value)}
+              autoFocus
+            />
+            {name && (
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+            )}
+          </div>
+          <span className="text-xs text-gray-300 mb-4 w-full">This appears on your Spotify profile</span>
+          <hr className="w-full border-gray-700 mb-4" />
+          <div className="text-xs text-gray-300 mb-2 w-full">
+            By tapping on "Create account", you agree to the Spotify <a href="#" className="text-green-400 underline">Terms of Use</a>.<br /><br />
+            To learn more about how Spotify collects, uses, shares and protects your personal data, please see the Spotify <a href="#" className="text-green-400 underline">Privacy Policy</a>.
+          </div>
+          <div className="flex items-center w-full mb-2 mt-2">
+            <input
+              id="consentNews"
+              type="checkbox"
+              checked={consentNews}
+              onChange={() => setConsentNews(!consentNews)}
+              className="form-checkbox h-5 w-5 text-green-500 bg-black border-gray-400 rounded-full focus:ring-green-500"
+            />
+            <label htmlFor="consentNews" className="ml-3 text-white text-sm">Please send me news and offers from Spotify.</label>
+          </div>
+          <div className="flex items-center w-full mb-6">
+            <input
+              id="consentMarketing"
+              type="checkbox"
+              checked={consentMarketing}
+              onChange={() => setConsentMarketing(!consentMarketing)}
+              className="form-checkbox h-5 w-5 text-green-500 bg-black border-gray-400 rounded-full focus:ring-green-500"
+            />
+            <label htmlFor="consentMarketing" className="ml-3 text-white text-sm">Share my registration data with Spotify's content providers for marketing purposes.</label>
+          </div>
+          <button
+            className="w-full bg-white text-black font-bold py-3 rounded-full mt-8 mb-2 transition disabled:opacity-60"
+            disabled={!name || !consentNews || !consentMarketing}
+          >Create an account</button>
+        </div>
+      </div>
+    );
+  }
 
   // Gender selection page (step 3)
   if (step === 3) {
@@ -67,7 +138,7 @@ function Signup() {
           <button
             className="w-32 bg-gray-600 text-white font-bold py-2 rounded-full mt-6 mb-2 transition disabled:opacity-60"
             disabled={!gender}
-            onClick={() => {}}
+            onClick={() => setStep(4)}
           >Next</button>
         </div>
       </div>
