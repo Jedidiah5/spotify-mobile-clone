@@ -9,6 +9,70 @@ function Signup() {
   const [step, setStep] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [gender, setGender] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Gender selection page (step 3)
+  if (step === 3) {
+    const genderOptions = [
+      'Male',
+      'Female',
+      'Non-binary',
+      'Prefer not to say',
+    ];
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center px-4 pt-6 relative">
+        {/* Back button */}
+        <button
+          className="absolute left-4 top-6 w-8 h-8 flex items-center justify-center bg-black rounded-full border border-gray-700"
+          onClick={() => setStep(2)}
+          aria-label="Back"
+        >
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+        {/* Title */}
+        <h2 className="text-white text-lg font-bold text-center mb-8 mt-2">Create account</h2>
+        {/* Gender form */}
+        <div className="w-full max-w-md flex flex-col items-center">
+          <label className="text-white text-xl font-bold mb-2 w-full" htmlFor="gender">What's your gender?</label>
+          <div className="relative w-full mb-1">
+            <button
+              id="gender"
+              type="button"
+              className="w-full rounded-md bg-gray-700 text-white px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-300"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <span>{gender || 'Select your gender'}</span>
+              {gender && (
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              )}
+              {!gender && (
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              )}
+            </button>
+            {dropdownOpen && (
+              <ul className="absolute left-0 right-0 bg-gray-800 rounded-md mt-1 z-20 shadow-lg">
+                {genderOptions.map(option => (
+                  <li
+                    key={option}
+                    className={`px-4 py-2 cursor-pointer hover:bg-gray-600 ${gender === option ? 'bg-gray-600' : ''}`}
+                    onClick={() => { setGender(option); setDropdownOpen(false); }}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <button
+            className="w-32 bg-gray-600 text-white font-bold py-2 rounded-full mt-6 mb-2 transition disabled:opacity-60"
+            disabled={!gender}
+            onClick={() => {}}
+          >Next</button>
+        </div>
+      </div>
+    );
+  }
 
   // Password entry page (step 2)
   if (step === 2) {
@@ -40,6 +104,7 @@ function Signup() {
           <button
             className="w-32 bg-gray-600 text-white font-bold py-2 rounded-full mt-2 mb-2 transition disabled:opacity-60"
             disabled={password.length < 8}
+            onClick={() => setStep(3)}
           >Next</button>
         </div>
       </div>
